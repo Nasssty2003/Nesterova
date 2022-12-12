@@ -140,6 +140,7 @@ class Report:
                 else:
                     columnWidth += [len(cell)]
         for i, columnWidth in enumerate(columnWidth, 1):
+            #устанавливаем ширину столбцов для вместимости самой длинной строки в столбце
             c.column_dimensions[get_column_letter(i)].width = 2 + columnWidth
         newData = [['Город', 'Уровень зарплат', '', 'Город', 'Доля вакансий']]
         for (city, value), (city2, value2) in zip(self.statistics5.items(), self.statistics6.items()):
@@ -158,6 +159,7 @@ class Report:
                 else:
                     columnWidth += [len(cellule)]
         for i, columnWidth in enumerate(columnWidth, 1):
+            # устанавливаем ширину столбцов для вместимости самой длинной строки в столбце
             d.column_dimensions[get_column_letter(i)].width = columnWidth + 2
         fontBold = Font(bold=True)
         #заполняем таблицу данными
