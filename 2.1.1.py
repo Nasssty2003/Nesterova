@@ -107,7 +107,7 @@ class DataSet:
         print('Доля вакансий по городам (в порядке убывания): {0}'.format(statistics6))
 
 class Report:
-    # Конструктор для объектов класса DataSet(данные)
+    # Конструктор для объектов класса Report(отчёт)
     def __init__(self, vacancyName, statistics, statistics2, statistics3, statistics4, statistics5, statistics6):
         self.workbook = Workbook()
         self.vacancyName = vacancyName
