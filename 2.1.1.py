@@ -1,4 +1,3 @@
-#импортируем все необходимые библиотеки
 import csv
 from openpyxl.utils import get_column_letter
 from openpyxl import Workbook
