@@ -159,7 +159,7 @@ class Report:
                 else:
                     columnWidth += [len(cellule)]
         for i, columnWidth in enumerate(columnWidth, 1):
-            # устанавливаем ширину столбцов для вместимости самой длинной строки в столбце
+            #устанавливаем ширину столбцов для вместимости самой длинной строки в столбце
             d.column_dimensions[get_column_letter(i)].width = columnWidth + 2
         fontBold = Font(bold=True)
         #заполняем таблицу данными
