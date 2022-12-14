@@ -181,7 +181,7 @@ class Report:
 class InputConnect:
     # Конструктор для объектов класса InputConnect (входное соединение)
     def __init__(self):
-        self.fileName = input('Название файла: ')
+        self.fileName = input('Название интересующего файла: ')
         self.vacancyName = input('Введите название профессии: ')
         a = DataSet(self.fileName, self.vacancyName)
         statistics, statistics2, statistics3, statistics4, statistics5, statistics6 = a.get_statistic()
