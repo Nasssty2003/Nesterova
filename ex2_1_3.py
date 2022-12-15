@@ -9,14 +9,27 @@ import pathlib
 import pdfkit
 from jinja2 import Environment, FileSystemLoader
 
-#Класс вакансии
 class Vacancy:
-    #словарь для перевода валют в рубли
+    """
+        Класс для представления вакансии
+        Attributes:
+            name (str): Название вакансии
+            salaryTo (int): Нижняя граница зарплат
+            salaryFrom (int): Верхняя граница зарплат
+            salaryCurrency (str): Идентификатор валюты оклада
+            salaryAverage (float): Средняя зарплата
+            areaName (str): Название региона
+            year (int): Год публикации вакансии
+            currency_to_rub (dict): Словарь курса валют
+    """
     currency_to_rub = {"AZN": 35.68, "BYR": 23.91, "EUR": 59.90, "GEL": 21.74, "KGS": 0.76,
                        "KZT": 0.13, "RUR": 1, "UAH": 1.64, "USD": 60.66, "UZS": 0.0055, }
 
-    # Конструктор для объектов класса Vacancy (вакансия)
     def __init__(self, vacancy):
+        """Инициализирует объект Vacancy
+                Args:
+                    vacancy (dict): Информация об 1 вакансии, полученная в виде словаря из файла
+        """
         self.name = vacancy['name']
         self.salaryTo = int(float(vacancy['salary_to']))
         self.salaryFrom = int(float(vacancy['salary_from']))
@@ -25,32 +38,53 @@ class Vacancy:
         self.areaName = vacancy['area_name']
         self.year = int(vacancy['published_at'][:4])
 
-#Класс данных, который отвечает за чтение и подготовку данных из CSV-файла (универсальный парсер CSV)
 class DataSet:
-    # Конструктор для объектов класса DataSet(данные)
+    """Класс отвечает за чтение и подготовку данных из CSV-файла
+        Attributes:
+            fileName (str): Название CSV-файла
+            vacancyName (str): Название профессии для статистики
+    """
+
     def __init__(self, file_name, vacancy_name):
+        """Инициализирует объект DataSet
+                Args:
+                    fileName (str): Имя файла
+                    vacancyName (str): Название профессии, по которой создаётся статистика
+        """
         self.fileName = file_name
         self.vacancyName = vacancy_name
 
-    #метод увеличивает значения элемента в словаре по ключу
     @staticmethod
     def increment(dict, key, quantity):
-        #если по такому ключу ещё нет значения, то задаём его
+        """Заносит данные в словарь
+                Args:
+                    dict (dict): Словарь зарплат
+                    key (int): Год публикации вакансии
+                    quantity (list): Средняя зарплата
+        """
         if key in dict:
             dict[key] += quantity
         else:
             dict[key] = quantity
 
-    #метод находит среднее по значениям в заданном словаре
     @staticmethod
     def average(dic):
+        """Считает средние значения по годам
+                Returns: Словарь средних величин по годам
+                Args:
+                    dict: словарь по годам со статистической информацией
+            """
         dictionary = {}
         # в цикле проходим по всем значениям словаря и находим среднее
         for key, values in dic.items():
             dictionary[key] = int(sum(values)) / int(len(values))
         return dictionary #возвращаем словарь средних значений
 
-    # метод читает заданный файл
+    """Парсит файл и формирует из вакансий словари
+            Returns:
+                dict: Словари с информацией по вакансиям
+                генератор при помощи yield
+    """
     def csv_reader(self):
         # читаем файл
         with open(self.fileName, mode='r', encoding='utf-8-sig') as file:
@@ -62,7 +96,10 @@ class DataSet:
                 if len(i) == len(first) and '' not in i:
                     yield dict(zip(first, i))
 
-    #метод по данным создаёт статистики
+    """Формирует статистику
+            Returns:
+                tuple: Картеж из словарей со статистикой по городам и годам
+    """
     def get_statistic(self):
         #создаём необходимые словари
         salary = {}
@@ -101,7 +138,15 @@ class DataSet:
         statistics5 = dict(statistics5[:10])
         return statistics, number, statistics2, numbersName, statistics3, statistics5 #возвращаем полученные данные
 
-    #метод выводит все полученные статистики
+    """Выводит статистику
+            Args:
+                statistics (dict): Динамика уровня зарплат по годам
+                statistics2 (dict): Динамика количества вакансий по годам
+                statistics3 (dict): Динамика уровня зарплат по годам для выбранной профессии
+                statistics4 (dict): Динамика количества вакансий по годам для выбранной профессии
+                statistics5 (dict): Уровень зарплат по городам (в порядке убывания)
+                statistics6 (dict): Доля вакансий по городам (в порядке убывания)
+    """
     @staticmethod
     def print_statistic(statistics, statistics2, statistics3, statistics4, statistics5, statistics6):
         print('Динамика уровня зарплат по годам: {0}'.format(statistics))
@@ -113,8 +158,28 @@ class DataSet:
 
 #Класс отчёта (excel, графики, pdf)
 class Report:
-    # Конструктор для объектов класса Report(отчёт)
+    """Класс для формирования файлов: exel, pdf, изображение диаграмм
+        Attributes:
+            workbook (Workbook): экземпляр книги для эксель файла
+            vacancyName (str): Название профессии
+            statistics (dict): Динамика уровня зарплат по годам
+            statistics2 (dict): Динамика количества вакансий по годам
+            statistics3 (dict): Динамика уровня зарплат по годам для выбранной профессии
+            statistics4 (dict): Динамика количества вакансий по годам для выбранной профессии
+            statistics5 (dict): Уровень зарплат по городам (в порядке убывания)
+            statistics6 (dict): Доля вакансий по городам (в порядке убывания)
+        """
     def __init__(self, vacancyName, statistics, statistics2, statistics3, statistics4, statistics5, statistics6):
+        """Инициализирует объект Report
+                Args:
+                    vacancyName (str): Название профессии
+                    statistics (dict): Динамика уровня зарплат по годам
+                    statistics2 (dict): Динамика количества вакансий по годам
+                    statistics3 (dict): Динамика уровня зарплат по годам для выбранной профессии
+                    statistics4 (dict): Динамика количества вакансий по годам для выбранной профессии
+                    statistics5 (dict): Уровень зарплат по городам (в порядке убывания)
+                    statistics6 (dict): Доля вакансий по городам (в порядке убывания)
+        """
         self.workbook = Workbook()
         self.vacancyName = vacancyName
         self.statistics = statistics
@@ -124,8 +189,9 @@ class Report:
         self.statistics5 = statistics5
         self.statistics6 = statistics6
 
-        # метод формирует excel файл с помощью библиотеки openpyxl
     def get_excel(self):
+        """Генерирует эксель файл и таблицы в нём с помощью библиотеки openpyxl
+        """
         c = self.workbook.active
         # задаём название таблицы и атрибуиов
         c.title = 'Статистика по годам'
@@ -184,8 +250,9 @@ class Report:
                 c[column + str(1 + x)].border = Border(left=fontThin, bottom=fontThin, right=fontThin, top=fontThin)
         self.workbook.save(filename='report.xlsx') #сохраняем полученную excel таблицу
 
-    # метод формирует графики с помощью библиотек matplotlib и numpy
     def get_graphics(self):
+        """Генерирует графики и диаграммы с помощью библиотек matplotlib, numpy
+        """
         fig, ((axes, axes2), (axes3, axes4)) = plt.subplots(nrows=2, ncols=2)
         bar = axes.bar(np.array(list(self.statistics.keys())) - 0.4, self.statistics.values(), width=0.4)
         bar2 = axes.bar(np.array(list(self.statistics.keys())), self.statistics3.values(), width=0.4)
@@ -225,6 +292,8 @@ class Report:
 
     #метод формирует pdf файл, содержащий в себе таблицу и диаграммы, с помощью библиотек pathlib, pdfkit, jinja2
     def get_pdf(self):
+        """Генерирует pgf файл, содержащий таблицу и диаграммы, с помощью библиотек pathlib, pdfkit, jinja2
+        """
         statistic = [] #создаём список для всех необходимых статистик
         environment = Environment(loader=FileSystemLoader('.'))
         template = environment.get_template("html.html")
@@ -241,9 +310,13 @@ class Report:
         config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
         pdfkit.from_string(pdfTemp, 'report.pdf', configuration=config, options={"enable-local-file-access": None})
 
-#Класс отвечает за обработку параметров вводимых пользователем: фильтры, сортировка, диапазон вывода, требуемые столбцы
 class InputConnect:
-    # Конструктор для объектов класса InputConnect (входное соединение)
+    """Класс отвечает за обработку параметров вводимых пользователем (фильтры, сортировка, диапазон вывода, требуемые столбцы),
+     а также за вывод данных на экран
+            Attributes:
+                fileName (str): Название файла
+                vacancyName (str): Название профессии для статистики
+        """
     def __init__(self):
         self.fileName = input('Введите название файла: ')
         self.vacancyName = input('Введите название профессии: ')
@@ -255,6 +328,7 @@ class InputConnect:
         b.get_graphics()
         b.get_pdf()
 
-#метод запускает программу
 def get_answer():
+    """Запускает программу
+    """
     InputConnect()

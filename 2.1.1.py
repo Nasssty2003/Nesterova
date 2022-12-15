@@ -26,7 +26,7 @@ class DataSet:
         self.fileName = file_name
         self.vacancyName = vacancy_name
 
-    #метод увеличивает значения элемента в словаре по ключу
+    #метод заносит данные в словарь
     @staticmethod
     def increment(dict, key, quantity):
         #если по такому ключу ещё нет значения, то задаём его
