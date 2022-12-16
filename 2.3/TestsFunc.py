@@ -1,58 +1,20 @@
-from Tests import Salary, Vacancy, DataSet
 from unittest import TestCase
+from table import Salary, DataSet, Vacancy
 
 class SalaryTests(TestCase):
-    def test_salary_type(self):
-        self.assertEqual(type(Salary(15.0, 25.5, 20.25, 'RUR')).__name__, 'Salary')
+    def test_get_salary(self):
+        self.assertEqual(Salary('1000', '2000', 'False', 'USD').get_salary(), '1 000 - 2 000 (Доллары) (С вычетом налогов)')
 
-    def test_salary_from(self):
-        self.assertEqual(Salary(20.0, 30.0, 30.0, 'EUR',).salary_from, 20)
+    def test_get_average_salary_rub(self):
+        self.assertEqual(Salary('1010', '3500', 'True', 'EUR').get_average_salary_rub(), 135074.5)
 
-    def test_salary_to(self):
-        self.assertEqual(Salary(20.0, 30.0, 30.0, 'EUR',).salary_to, 30)
+class DatasetTests(TestCase):
+    def test_process_vacancy(self):
+        self.assertEqual(DataSet.process_vacancy('Основные функции:</strong></p> <ul> <li>мониторинг состояния промышленных кластеров СУБД'), 'Основные функции: мониторинг состояния промышленных кластеров СУБД')
 
-    def test_salary_gross(self):
-        self.assertEqual(Salary(20.0, 30.0, 30.0, 'EUR',).salary_gross, 30)
+    def test_formatter(self):
+        self.assertEqual(DataSet.formatter(Vacancy('Программист', 'Хорошая вакансия', ['Знание алгоритмов', 'Работа с Git'], 'noExperience', 'Да', 'Контур', Salary('10000', '15000', 'False', 'RUR'),'Челябинск', '2022-07-13T11:03:58+0300')),
+                         {'Название': 'Программист', 'Описание': 'Хорошая вакансия', 'Навыки': 'Знание алгоритмов\nРабота с Git', 'Опыт работы': 'Нет опыта', 'Премиум-вакансия': 'Да', 'Компания': 'Контур', 'Оклад': '10 000 - 15 000 (Рубли) (С вычетом налогов)', 'Название региона': 'Челябинск', 'Дата публикации вакансии': '13.07.2022'})
 
-    def test_salary_currency(self):
-        self.assertEqual(Salary(20.0, 30.0, 25.0, 'EUR',).salary_currency, 'EUR')
-
-
-class VacancyTests(TestCase):
-    def test_vacancy_type(self):
-        self.assertEqual(type(Vacancy('Программист', 'Программирует', 'Python, C#', 'Нет опыта', 'Нет', 'BoxSkill', '100', 'Екатеринбург', '1.1.2001')).__name__, 'Vacancy')
-
-    def test_vacancy_name(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').name, 'Аналитик')
-
-    def test_vacancy_description(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').description, 'Анализирует')
-
-    def test_vacancy_key_skills(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').key_skills, 'Python')
-
-    def test_vacancy_experience_id(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').experience_id, 'От 1 года до 3 лет')
-
-    def test_vacancy_premium(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').premium, 'Да')
-
-    def test_vacancy_employer_name(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').employer_name, '1Ц')
-
-    def test_vacancy_salary(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').salary, '300')
-
-    def test_vacancy_area_name(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').area_name, 'Екатеринбург')
-
-    def test_vacancy_published_at(self):
-        self.assertEqual(Vacancy('Аналитик', 'Анализирует', 'Python', 'От 1 года до 3 лет', 'Да', '1Ц', '300', 'Екатеринбург', '2.2.2002').published_at, '2.2.2002')
-
-
-class DataSetTests(TestCase):
-    def test_dataset_type(self):
-        self.assertEqual(type(DataSet('filename.abc', Vacancy('Программист', 'Программирует', 'Python, C#', 'Нет опыта', 'Нет', 'BoxSkill', '100', 'Екатеринбург', '1.1.2001'))).__name__, 'DataSet')
-
-    def test_dataset_file_name(self):
-        self.assertEqual(DataSet('filename.abc', Vacancy('Программист', 'Программирует', 'Python, C#', 'Нет опыта', 'Нет', 'BoxSkill', '100', 'Екатеринбург', '1.1.2001')).file_name, 'filename.abc')
+    def test_format_value(self):
+        self.assertEqual(DataSet.format_value('ЕвроХим - один из крупнейших и наиболее быстро развивающихся производителей минеральных удобрений в мире. Наша цель – войти в пятерку лидеров отрасли.'), 'ЕвроХим - один из крупнейших и наиболее быстро развивающихся производителей минеральных удобрений в ...')
