@@ -24,3 +24,7 @@ Profiling
 ![time3](https://user-images.githubusercontent.com/43472988/208233497-746aa124-185f-40a6-af96-daf77dc7cdba.png)
 
 Сравниваем время выполнения и выясняем, что последний вариант самый эффективный
+
+3.2.1
+
+![3 2 1](https://user-images.githubusercontent.com/43472988/208263370-8a6c6e66-ee93-48fb-b738-2477d07412bd.jpg)
