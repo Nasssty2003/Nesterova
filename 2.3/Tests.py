@@ -238,6 +238,7 @@ class DataSet:
     #    split_date = date.split('T')[0].split('-')
     #    return   f'{split_date[2]}.{split_date[1]}.{split_date[2]}'
 
+
     @staticmethod
     def csv_reader(file_name):
         """
