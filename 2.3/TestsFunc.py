@@ -1,5 +1,5 @@
 from unittest import TestCase
-from table import Salary, DataSet, Vacancy
+from Tests import Salary, DataSet, Vacancy
 
 class SalaryTests(TestCase):
     def test_get_salary(self):
