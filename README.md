@@ -28,3 +28,14 @@ Profiling
 3.2.1
 
 ![3 2 1](https://user-images.githubusercontent.com/43472988/208263370-8a6c6e66-ee93-48fb-b738-2477d07412bd.jpg)
+
+3.2.2
+
+Результаты работы скрипта без многопроцессорной обработки:
+
+![агт](https://user-images.githubusercontent.com/43472988/208510120-11939c8a-c382-4b29-9e75-72e2ef59e635.png)
+
+Результаты работы скрипта с многопроцессорной обработки:
+
+![агн2](https://user-images.githubusercontent.com/43472988/208510172-bb4c8eee-ea49-488a-97a5-a1098abe8d72.png)
+
