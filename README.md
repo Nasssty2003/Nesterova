@@ -1,8 +1,8 @@
-Tests
+# Tests
 ![Снимок экрана 2022-12-16 в 00 43 36](https://user-images.githubusercontent.com/43472988/207952542-8e647532-1c7e-4bda-a0d3-0872d791ceb9.png)
 ![Снимок экрана 2022-12-16 в 00 43 53](https://user-images.githubusercontent.com/43472988/207952564-de16b2dd-c5a3-4908-93f4-01ba0c92434f.png)
 
-Profiling
+# Profiling
 
 Измерим время выполнения программы и найдём самую времязатратную функцию
 
@@ -25,11 +25,11 @@ Profiling
 
 Сравниваем время выполнения и выясняем, что последний вариант самый эффективный
 
-3.2.1
+# 3.2.1
 
 ![3 2 1](https://user-images.githubusercontent.com/43472988/208263370-8a6c6e66-ee93-48fb-b738-2477d07412bd.jpg)
 
-3.2.2
+# 3.2.2
 
 Результаты работы скрипта без многопроцессорной обработки:
 
@@ -39,3 +39,10 @@ Profiling
 
 ![агн2](https://user-images.githubusercontent.com/43472988/208510172-bb4c8eee-ea49-488a-97a5-a1098abe8d72.png)
 
+# 3.2.3
+
+Результаты работы скрипта используя concurrent futures: 
+
+![3вка](https://user-images.githubusercontent.com/43472988/208514785-cf57f947-23a9-4b6c-b926-2e117258915c.png)
+
+Сравнивая время выполнения двух команд, можно сделать вывод, что вариант с concurrent futures быстрее, так что оставлемя его
