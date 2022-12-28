@@ -41,7 +41,6 @@ def get_salary(x, currencies):
         return salary
     return math.floor(salary * currencies.loc[currencies['date'] == d][salary_currency].values[0])
 
-
 def calc_year_stat_mp1():
     global year_by_num, year_by_salary, year_by_num_job, year_by_salary_job, df_res
     process = []
