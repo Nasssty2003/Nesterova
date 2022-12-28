@@ -3,8 +3,8 @@ from statistics import mean
 import pandas as pd
 
 pd.set_option("expand_frame_repr", False)
-dataframe = pd.read_csv("csv_files/vacancies_dif_currencies.csv")
-dataframe_published_at = pd.read_csv("csv_3_3_1.csv")
+dataframe = pd.read_csv("vacancies_dif_currencies.csv")
+dataframe_published_at = pd.read_csv("3.3.1.csv")
 
 def process_salaries(salary_from, salary_to, salary_currency, published_at):
     published_at = published_at[1] + "/" + published_at[0]
@@ -26,4 +26,4 @@ def process_salaries(salary_from, salary_to, salary_currency, published_at):
 dataframe["salary"] = dataframe.apply(
     lambda row: process_salaries(row["salary_from"], row["salary_to"], row["salary_currency"],
                                  row["published_at"][:7].split("-")), axis=1)
-dataframe[:100].to_csv("csv_3_4_1.csv", index=False)
+dataframe[:100].to_csv("3.4.1.csv", index=False)
