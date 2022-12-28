@@ -44,7 +44,6 @@ date5 = datetime.strptime('2022-12-15T14:51:41+0300', '%Y-%m-%dT%H:%M:%S%z').rep
 
 vacancies = get_vacancies(date1, date2) + get_vacancies(date2, date3) + get_vacancies(date3, date4) + get_vacancies(
     date4, date5)
-
 pd.set_option('expand_frame_repr', False)
 df = pd.DataFrame.from_dict(vacancies)
 df.to_csv('api_vacancies.csv')
