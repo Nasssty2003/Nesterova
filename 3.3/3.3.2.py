@@ -46,7 +46,7 @@ def calc_year_stat_mp1():
     global year_by_num, year_by_salary, year_by_num_job, year_by_salary_job, df_res
     process = []
     q = Queue()
-    currencies = pd.read_csv('currencies.csv')
+    currencies = pd.read_csv('3.3.1.csv')
     for file_name in os.listdir(user_input.fileName):
         a = Process(target=calc_year_stat_mp,
                     args=(user_input.fileName + '/' + file_name, user_input.jobName, q, currencies.copy()))

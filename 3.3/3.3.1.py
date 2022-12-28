@@ -29,5 +29,5 @@ for i in range(0, len(month)):
     UAH = float(currency_value.loc[currency_value['CharCode'] == 'UAH']['Value'].values[0].replace(',', '.')) / \
           (currency_value.loc[currency_value['CharCode'] == 'UAH']['Nominal'].values[0])
     data.loc[i] = [f'{month[i][3:]}-{month[i][:2]}', BYR, EUR, KZT, UAH, USD]
-data.to_csv('currencies.csv')
+data.to_csv('3.3.1.csv')
 print(data.head())
