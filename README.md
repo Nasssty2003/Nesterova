@@ -52,3 +52,7 @@
 Скриншот частотности с которой встречаются различные валюты:
 
 ![208959776-58884f39-eb0f-452e-9684-510cbb7766ae](https://user-images.githubusercontent.com/43472988/209672228-f289af8f-9e12-4eb8-8fb9-1d043b4491ec.png)
+
+# 3.5.2
+
+![скрин](https://user-images.githubusercontent.com/43472988/210102161-173cf2e8-38f6-4a53-b62f-3de0d6575c6b.jpg)
