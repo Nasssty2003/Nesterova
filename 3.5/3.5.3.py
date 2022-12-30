@@ -1,7 +1,6 @@
 import sqlite3
 import pandas as pd
 
-
 class Statistical_data:
     def __init__(self):
         self.salary_by_area = {}
